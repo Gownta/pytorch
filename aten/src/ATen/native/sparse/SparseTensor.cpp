@@ -379,7 +379,7 @@ void _validate_sparse_coo_tensor_args(
       size.size());
 
   // Check to make sure all indices are within the boundaries of `size`
-  if (indices.numel() > 0) {
+  if (indices.numel() > 0 && indices.has_storage() && indices.storage().device_type() != DeviceType::Meta) {
     Tensor min_indices =
         std::get</* values */ 0>(indices.min(/* dim */ 1, /* keepdim */ false));
     Tensor max_indices =
